@@ -1,4 +1,6 @@
 *.aux
 *.txt
 *.synctex.gz
+*.gz
 *.tex
+*.log
