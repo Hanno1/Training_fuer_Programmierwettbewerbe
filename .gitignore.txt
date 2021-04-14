@@ -1,4 +1,4 @@
-examQuestions\examQuestions.aux
-examQuestions\examQuestions.log
-examQuestions\examQuestions.synctex.gz
-examQuestions\examQuestions.tex
+examQuestions.aux
+examQuestions.log
+examQuestions.synctex.gz
+examQuestions.tex
