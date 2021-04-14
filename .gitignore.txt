@@ -1,6 +1,0 @@
-examQuestions.aux
-examQuestions.log
-examQuestions.synctex.gz
-examQuestions.tex
-
-test.txt
