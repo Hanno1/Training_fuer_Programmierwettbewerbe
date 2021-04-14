@@ -1,0 +1,48 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc} 
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{extarrows}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{nicefrac}
+\usepackage{faktor}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+\begin{center}
+{\large \textbf{Training für Programmierwettbewerbe - Exam Questions}}\\
+{\small Hanno Barschel (174761)}
+\end{center}
+\section{1 Introduction}
+\begin{itemize}
+\item[(1)] Zeit Komplexität von drei Funktionen:
+\begin{itemize}
+\item \textbf{foo(.)} hat eine Zeitkomplexität von $\mathcal{O}(n)$ (wobei $n$ die Länge des gegebenen Vektors ist) und eine Platzkomplexität von $\mathcal{O}(n)$.
+\par
+Das folgt direkt daraus, dass wir genau 2 Vorschleifen die jeweils den gesamten Vektor durchgehen haben also $\mathcal{O} (2n) = \mathcal{O}(n)$.
+%
+\item \textbf{print\_ pairs(.)} hat eine Zeitkomplexität von $\mathcal{O}(n^2)$ und eine Platzkomplexität von $\mathcal{O}(n)$.
+\par
+Für jedes Element des Vektors ruft die Funktion nochmal jedes Element des Vektors auf und printed beide als Paar aus. Somit kommt eine Zeitkomplexität von $\mathcal{O}(n^2)$ zustande.
+%
+\item \textbf{print\_ unordered\_ pairs(.)} hat eine Laufzeitkomplexität von $\mathcal{O}(n^2)$ und eine Platzkomplexität von $\mathcal{O}(n)$.
+\par
+Für jedes Element des Vektors rufen wir alle Folgeelemente auf. Das sind es $n-(i+1)$ Aufrufe für Element $i$ ($i$ startet bei $0$). Damit kommen wir auf eine Laufzeit von
+\begin{align*}
+\sum _{i=0} ^{n-1} (n-(i+1)) = n^2 - \sum _{i=1} ^n i = n^2 - \frac{n\cdot (n+1)}{2} = n^2 - \frac{n^2}{2} - \frac{1}{2} \in \mathcal{O}(n^2).
+\end{align*}
+%
+\item \textbf{all\_ fib(.)} hat denke eine Zeitkomplexität von $\mathcal{O}(n)$ und eine Platzkomplexität von $\mathcal{O}(n)$.
+\par
+Die for-Schleife printed uns im Prinzip alle Fibonacci Zahlen bis $n$ aus. Sobald wir eine Null in $memo[i]$ finden sind aber bereits $memo[i-1]$ und $memo[i-2]$ berechnet, somit müssen wir diese nur addieren und haben keine wirklich tiefe Rekursion.
+\end{itemize}
+\end{itemize}
+\end{document}
