@@ -40,31 +40,46 @@ using namespace std;
 
 int count_permutations(const string &s, const string &b) {
     int count = 0;
+    // length is in the following code the length of the shorter string s
     int length = s.length();
+    // if the first string is bigger than the later we just return 0 (no permutation possible)
+    // if length == 0, then there are no permutations as well
     if (length > b.length() || length == 0){
         return count;
     }
+    // to keep track of used characters we use dictionaries for string s and a part of string b
     map<char, int> dict_s;
     map<char, int> dict_b;
-    for (int i = 0; i < length; i++){
-        dict_s[s[i]]++;
-        dict_b[b[i]]++;
-        if (!dict_s[b[i]]){
-            dict_s[b[i]] = 0;
+    // create a dictionary for s and at the same time one for the first letters of b
+    for (int index = 0; index < length; index++){
+        dict_s[s[index]]++;
+        dict_b[b[index]]++;
+        // if we have a unknown character we create a new entry in dict_s so the comparison works
+        if (!dict_s[b[index]]){
+            dict_s[b[index]] = 0;
         }
     }
+    // if now the dictionaries are the same it is a permutation and we add 1 to the counter
     count = count + (dict_s == dict_b);
-    for (int i = 0; i < b.length() - length; i++){
-        dict_b[b[i]]--;
-        dict_b[b[i + length]]++;
-        if (!dict_s[b[i + length]]){
-            dict_s[b[i + length]] = 0;
+    // now we go through the string b letter by letter
+    // we already initialised the dictionary and now all we have to do is to
+    // remove the first letter (index) and add one letter at the end (index + length)
+    // after that we compare again and increment the index later
+    // if there is a new letter in b which didnt occur in s we still have to
+    // create a empty dictionary entry in dict_s
+    for (int index = 0; index < b.length() - length; index++){
+        dict_b[b[index]]--;
+        dict_b[b[index + length]]++;
+        if (!dict_s[b[index + length]]){
+            dict_s[b[index + length]] = 0;
         }
         count = count + (dict_s == dict_b);
     }
-    // TODO: given a smaller string s and a bigger string b, design an algorithm
-    //  that needs at most O(B * S^2) time to count all permutation appearances
-    //  of the shorter string within the longer string
+    // The time complexity of the algorithm is O(B) because we obviously go through
+    // the string b. For every iteration we increment and decrement two numbers in
+    // the dictionary
+    // additionally we add eventually a new entry to dict_s
+    // Since there is a finite number of characters the time for this is constant
 
     return count;
 }
