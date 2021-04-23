@@ -135,8 +135,7 @@ uint32_t max_flip_sequence_size_brute_force(uint32_t n) {
     return max_length;
 }
 
-uint32_t max_flip_sequence_size(uint32_t n) {
-    bitset<32> b = n;
+uint32_t max_flip_sequence_size(uint32_t numb) {
     // max_length is the length of all ones in a row
     // is reseted to 0 if we find a zero
     uint32_t max_length = 0;
@@ -148,8 +147,11 @@ uint32_t max_flip_sequence_size(uint32_t n) {
     bool first = false;
     // go through every bit
     for (int i = 0; i < 32; i++){
-        if (!b[i]){
-            // if b[i] == 0 and first is false we just flip the 0 to 1, increment the counted sequence and
+        if (!((numb >> i)&1)){
+            // we go here if the least significant bit is set to 0
+            // I know there are better solutions then shifting by i (for example shift every loop by 1)
+            // but I cant implement it somehow
+            // if first is false we just flip the 0 to 1, increment the counted sequence and
             // set first to true since we did flip a bit
             if (!first){
                 counted_seq++;
@@ -171,7 +173,7 @@ uint32_t max_flip_sequence_size(uint32_t n) {
             length_seq = 0;
         }
         else{
-            // if b[i] is one we just count both sequences up
+            // if the least significant bit is 1 we just count both sequences up
             counted_seq++;
             length_seq++;
         }
@@ -181,9 +183,7 @@ uint32_t max_flip_sequence_size(uint32_t n) {
         max_length = counted_seq;
     }
     // the time complexity is O(b)
-    // the space complexity is O(b) we can improve it by not converting the integer
-    // to an bitset
-    // TODO if enough time!
+    // the space complexity is O(1) since we only need the given integer and shift it
     return max_length;
 }
 /*************** end assignment ***************/
