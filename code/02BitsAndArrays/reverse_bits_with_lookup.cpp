@@ -60,14 +60,11 @@ inline uint32_t reverse_with_lookup(uint32_t num) {
     uint8_t mask = 255;
     // get the four parts and reverse them using the lookup table since the parts only contain 8 bits
     // to get the parts we need to shift the number to the right
-    uint32_t first = lookup[num & mask];
-    uint32_t second = lookup[(num >> 8) & mask];
-    uint32_t third = lookup[(num >> 16) & mask];
-    uint32_t fourth = lookup[(num >> 24) & mask];
     // finally we compute the result. Since we want to reverse the number the first part
     // is not the highest, then second and so on.
     // we add them together and shift the parts
-    result = (first << 24) + (second << 16) + (third << 8) + fourth;
+    result = (lookup[num & mask] << 24) + (lookup[(num >> 8) & mask] << 16) +
+             (lookup[(num >> 16) & mask] << 8) + lookup[(num >> 24) & mask];
 
     return result;
 }

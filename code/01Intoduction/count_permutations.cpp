@@ -113,6 +113,6 @@ int main() {
   b = "PsychoxtomimetiPsycotomimehticcunyaschPoetcomyimtixkjnvipxkfnamdsacaxosa"
       "ctbrnioabfxixseyetzackxhmuqunyaschePocomtyimti";
   assert(count_permutations(s, b) == 3);
-
   cout << "all tests passed" << endl;
+  return 1;
 }
