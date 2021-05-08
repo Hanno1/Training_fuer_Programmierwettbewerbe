@@ -48,26 +48,26 @@ public:
 // that's ok. Use extra memory and you're done with a few lines
 // of code ;).
 
-void print_array(size_t arr[], size_t length){
-    cout << "----------" << endl;
-    for (int i = 0; i < length; i++){
-        cout << arr[i] << endl;
-    }
-    cout << "----------" << endl;
-}
-
-bool compare_arrays(size_t arr1[], size_t arr2[], size_t length){
-    for (int i = 0; i < length; i++){
-        if (arr1[i] != arr2[i]) { return false; }
-    }
-    return true;
-}
-
 bool is_palindrom(Node *node) {
     if (node == nullptr || node->next == nullptr){
         return true;
     }
     else{
+        // we use the runner technique for the solution
+        // one pointer is fast and one is slow
+        // if the fast pointer reaches the end the slow one is in the middle
+        // for the palindrom check we use a stack. Everytime the slow pointer
+        // encounters a value we push it. If the fast pointer reaches the end
+        // the stack contains the first n values. The last value is on top
+        // if the list has an uneven number of nodes
+        //(exactly then the fast pointer is not null but the next node is null
+        //(fast pointer is tail))
+        // we have to ignore the middle node, so the slow pointer just jumps over it
+        // Now we go as long as the stack is not empty over the remaining list
+        // (using the slow pointer which is already in the middle) and check
+        // if the top element of the stack is the same as the encountered element
+        // if this is the case we pop and go to the next
+        // if not we dont have a palindrom so we return false
         Node *slow = node;
         Node *fast = node;
         Stack<uint64_t> s;

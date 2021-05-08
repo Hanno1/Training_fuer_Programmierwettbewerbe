@@ -83,6 +83,13 @@ string Trie::shortest_prefix(const string &s) {
     auto *p = root.get(); // get pointer of the root node
     int length = 0;
     string res = "";
+    // for every char in the string we check if one of the kidnodes of our node has
+    // the same character
+    // if this is the case we go to this node and check here for the next character
+    // and append the current character to the result string.
+    // if not we have found the shortest prefix (we have to append the current character as well)
+    // if the word is completely inside our trie we just return "". this is the case
+    // if we dont return anything in the for loop
     for (int i = 0; i < s.size(); i++){
         unordered_map<char,unique_ptr<Trie_Node>>::const_iterator got = p->nodes.find(s[i]);
         if (got == p->nodes.end()){

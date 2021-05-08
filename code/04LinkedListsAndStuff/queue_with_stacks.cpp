@@ -24,18 +24,27 @@ using namespace std;
 // simple queue implementation with two stacks
 template <typename T> class Queue {
 private:
-  // these are the only class variables you need to implement the queue.
+  // these are the only class variables you need to implement in the queue.
+  // we additionally use a length variable to keep track of all the elements in the queue
   stack<T> enq, deq;
   size_t length = 0;
 
 public:
     // TODO: implement enqueue
     void enqueue(T x) {
+        // if enqueue is called we just push the element on the enq stack
         enq.push(x);
         length++;
     }
     // TODO: implement dequeue
     T dequeue() {
+        // if deq is called we first have to check the length
+        // if this is zero the queue is empty and we just return null
+        // if not we check the deq stack. If this is empty we pop every
+        // element in the enq stack and push them in the deq stack.
+        // now we just take the first element of the deq stack.
+        // As long as the deq stack is not empty we pop the elements
+        // directly from it
         if (length){
             if (deq.empty()){
                 while (!enq.empty()){

@@ -45,6 +45,9 @@ public:
 //   https://www.geeksforgeeks.org/stringstream-c-applications/
 // - use a stack<int> for stacking the numbers
 inline int string_to_int(const string &s) {
+    // this function just converts an gib´ven string to
+    // the corresponding integer
+    // negative values has to be evaluated too
     bool is_negative = s[0] == '-';
     int result = 0;
     // if integer is negative start with index i = 1
@@ -55,12 +58,22 @@ inline int string_to_int(const string &s) {
 }
 
 int eval_rpn(const string &rpn_expression) {
+    // istringstream splits a given expression at the spaces
+    // we can iterate over the result with get_line
+    // the token is the entire line
     istringstream ss(rpn_expression);
     string token;
 
     Stack<int> s;
 
     while(std::getline(ss, token, ' ')) {
+        // the token is a line of our splitted expression
+        // it can be equal to either -,+,*,/ or its an Integer
+        // our stack contains the values. if we get an operation token
+        // we take the upper two numbers from the stack (pop), apply the
+        // operation and pus the result
+        // if the token is an normal string, we apply the string_to_int
+        // function and push the result
         if (token == "-"){
             int one = s.top();
             s.pop();

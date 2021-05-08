@@ -52,16 +52,30 @@ struct Binary_Tree_Node {
 // write a helper function if you need to
 // TODO: write code here
 bool inorder_rek(Binary_Tree_Node *node, int mini, int maxi){
+    // we compare the value in the node with min and max. it has to be greater
+    // or equal to min and smaller then max. If this is the case we walk to the right
+    // and to the left of the node and compare them again to min and max
+    // if one of these comparisons fails we return false
+    // if we go left, the data there has to be samller or equal of the data in our
+    // current node, so we set the new_min to node->data
+    // if we go right the value should be bigger, so we set the max to node->data.
     if (node){
         if (node->data <= mini || node->data > maxi){
             return false;
         }
         return inorder_rek(node->left, mini, node->data) && inorder_rek(node->right, node->data, maxi);
     }
+    // if the node is null we just return true, since a empty node
+    // is always a binary tree
     return true;
 }
 
 bool is_binary_search_tree(Binary_Tree_Node *node) {
+    // we use recursion for the solution
+    // for each node we give the minimum and maximum borders
+    // in those the value of the node should be
+    // since the root can be everything we initialise the values
+    // min, max with the smallest and biggest possible integer
     bool res = inorder_rek(node,  INT_MIN, INT_MAX);
     return res;
 }

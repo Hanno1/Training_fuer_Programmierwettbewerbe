@@ -116,10 +116,25 @@ void print_vector(vector<size_t> v){
 }
 
 size_t ret_max_river(vector<size_t> vec, size_t line_length, size_t &line_breaks){
+    // this function takes a text as a vector, a line_length and returns the
+    // maximum sized river as well as the line_breaaks needed
+    // we go through the text line by line (we use a counter for this)
+    // and save the current rivers in a size_t array with line_length
+    // places
+    // if we find a space we just have to check this array at the 3 possible spaces
+    // we take the maximum and add one to it.
+    // We sadly cant do it in place since we need to access the array
+    // for every space in the river (especially if we have a single char surrounded by 2 spaces)
+    // so we need a second array (rivers_new)
+    //****************//
+    // if we find a space we cant add it to the array yet since the space can be the end of the line
+    // and therefore does not count.
+    // so we add an additional variable last_pos. If we find a space we update the array
+    // at the position of last_pos and set last_pos to the current pos
     size_t max_river = 0;
     size_t rivers[line_length];
     size_t rivers_new[line_length];
-    // initialise Array
+    // initialise Arrays
     for (int i = 0; i < line_length; i++){
         rivers[i] = 0;
         rivers_new[i] = 0;
@@ -129,14 +144,23 @@ size_t ret_max_river(vector<size_t> vec, size_t line_length, size_t &line_breaks
     size_t pos = 0;
 
     for (int i = 0; i < vec.size(); i++){
+        // we add the current word length to our position
         pos += vec[i];
+        // if now the pos is greater then the line_length we need
+        // to begin a new line
+        // which means to update the lists (rivers has to be rivers_new and
+        // rivers_new has to contain zeros
+        // if we find a river in river in rivers but none in rivers new we know that
+        // a river has ended. Therefore we compare the length to the max_river_length
+        // and update it in case its bigger
         if (pos > line_length){
             line_breaks++;
-            // we dont have to check the last position since its
-            // the end of the line
+            // set the new position
+            // since we had a linebreak its now exactly the length of the current word
             pos = vec[i];
             last_pos = 0;
             // but we created a new line so we have to compare the rivers
+            // and replace rivers with new_rivers
             for (int j = 0; j < line_length; j++){
                 if (rivers_new[j] == 0 && rivers[j] > 0){
                     if (rivers[j] > max_river){
@@ -152,6 +176,7 @@ size_t ret_max_river(vector<size_t> vec, size_t line_length, size_t &line_breaks
                 // set new river or update existing, +1 because we are in a new line
                 rivers_new[last_pos] = max(max(rivers[last_pos-1], rivers[last_pos]), rivers[last_pos+1]) + 1;
             }
+            // since we have had a space we now need to increment the position by one
             pos++;
             if (pos >= line_length){
                 // go to the next line
@@ -234,7 +259,7 @@ int main() {
   // set data_dir to folder with test data
   string data_dir = "./F-gowithflow/";
   // test texts in task description
-  /*{
+  {
     string text = "The Yangtze is the third longest "
                   "river in Asia and the longest in "
                   "the world to flow "
@@ -296,7 +321,7 @@ int main() {
       assert(result == correct_result);
       cout << in.data() << " passed\n";
     }
-  }*/
+  }
   {
     Input input = get_input(data_dir + "secret-099-small.in");
     Result correct_result = get_result(data_dir + "secret-099-small.ans");
