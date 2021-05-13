@@ -115,6 +115,64 @@ void print_vector(vector<size_t> v){
     cout << "-------------" << endl;
 }
 
+size_t ret_max_river_test(vector<size_t> vec, size_t line_length, size_t &line_breaks, size_t &overset){
+    size_t max_river = 0;
+    size_t rivers[line_length];
+    size_t rivers_new[line_length];
+    // initialise Arrays
+    for (int i = 0; i < line_length; i++){
+        rivers[i] = 0;
+        rivers_new[i] = 0;
+    }
+
+    size_t last_pos = 0;
+    size_t pos = 0;
+    print_vector(vec);
+    for (int i = 0; i < vec.size(); i++){
+        pos += vec[i];
+
+        if (pos > line_length){
+            line_breaks++;
+            overset = min(overset, pos % line_length);
+            pos = vec[i];
+            last_pos = 0;
+
+            for (int j = 0; j < line_length; j++){
+                if (rivers_new[j] == 0 && rivers[j] > 0){
+                    if (rivers[j] > max_river){
+                        max_river = rivers[j];
+                    }
+                }
+                rivers[j] = rivers_new[j];
+                rivers_new[j] = 0;
+            }
+        }
+        if (last_pos){
+            rivers_new[last_pos] = max(max(rivers[last_pos-1], rivers[last_pos]), rivers[last_pos+1]) + 1;
+        }
+        pos++;
+        last_pos = pos-1;
+    }
+
+
+    if (line_breaks == 0){
+         for (int j = 0; j < line_length; j++){
+            if (rivers_new[j] > max_river){
+                max_river = rivers_new[j];
+            }
+         }
+    }
+    else{
+        for (int j = 0; j < line_length; j++){
+            if (rivers[j] > max_river){
+                max_river = rivers[j];
+            }
+        }
+    }
+    line_breaks++;
+    return max_river;
+}
+
 size_t ret_max_river(vector<size_t> vec, size_t line_length, size_t &line_breaks){
     // this function takes a text as a vector, a line_length and returns the
     // maximum sized river as well as the line_breaaks needed
@@ -237,9 +295,11 @@ Result find_longest_river(Input &input) {
     size_t line_width = longest_word; // line width can't be shorter than the longest word
     size_t river_length = 0;
     size_t line_breaks;
+    size_t overset = 100;
     for (size_t i = longest_word; i <= longest_word * word_sizes.size()+1; i++){
         line_breaks = 0;
-        size_t res = ret_max_river(word_sizes, i, line_breaks);
+        size_t res = ret_max_river_test(word_sizes, i, line_breaks, overset);
+        cout << overset << endl;
         if (res > river_length){
             river_length = res;
             line_width = i;
@@ -259,7 +319,7 @@ int main() {
   // set data_dir to folder with test data
   string data_dir = "./F-gowithflow/";
   // test texts in task description
-  {
+  /*{
     string text = "The Yangtze is the third longest "
                   "river in Asia and the longest in "
                   "the world to flow "
@@ -282,7 +342,7 @@ int main() {
     Result result = find_longest_river(input);
     Result correct_result{21, 6};
     assert(result == correct_result);
-  }
+  }*/
 
   TIMERSTART(total_time_on_test_data);
   // test now the texts provided by the organisers of the competition
