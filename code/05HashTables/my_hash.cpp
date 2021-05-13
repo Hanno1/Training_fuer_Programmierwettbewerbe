@@ -52,11 +52,14 @@ static kv table[] = {
 
 // for your convenience, the key is a C++ string and not a C-style pointer
 uint32_t my_hash(const string &key) {
-    if (key.size() > 0){
-        if (key[0] == 'J' || key[0] == 'L' || key[0] == 'S'){
-            int index = (1 - (key[0] == 'J')) + (1 + (key.size() > 7)) * (key[0] == 'S');
-            return index;
-        }
+    // the hash function looks a bit complicated
+    // we look at the first char
+    // if it is is J we return 0 (John Smith)
+    // if it is L we return 1 (Lisa Smith)
+    // else we need to check the length and return either 2 or 3
+    if (key.size() > 0 && (key[0] == 'J' || key[0] == 'L' || key[0] == 'S')){
+        int index = (1 - (key[0] == 'J')) + (1 + (key.size() > 7)) * (key[0] == 'S');
+        return index;
     }
     // Remarks:
     //   - return the index of the string in the kv table to be compared with the
@@ -167,6 +170,6 @@ int main() {
   TIMERSTOP(perfect_min_hash)
 
   assert(matches_count_cpp == matches_count_min_hash);
-  // unordered_map: 7.47 seconds
-  // perfect_min_hash: 2.441 seconds
+  // unordered_map: 9 seconds
+  // perfect_min_hash: 2.374 seconds
 }

@@ -72,14 +72,18 @@ vector<Employee> generate_random_vector(int n) {
 // parallelization possibilities for C++.
 
 void bucket_sort(vector<Employee> &employees) {
-        // make 70 -18 = 52 buckets
+        // make 70-18 + 1 = 53 buckets (vectors)
+        // +1 because its inclusive both numbers
         vector<Employee> res[53];
-
+        // sort every employee from the given vector in the
+        // bucket with his age
+        // -18 because we start at bucket 0 with the youngest
         for (int i = 0; i < employees.size(); i++){
             int index = employees[i].age - 18;
             res[index].push_back(employees[i]);
         }
         int index = 0;
+        // concatenate the buckets and overwrite the entries in emplyees
         for (int bucket = 0; bucket < 53; bucket++){
             for (int entry = 0; entry < res[bucket].size(); entry++){
                 employees[index] = res[bucket][entry];
@@ -115,4 +119,7 @@ int main() {
   assert(employees == copy_employess);
 
   cout << "passed!" << endl;
+
+  // std_sort: 40.1859 seconds
+  // bucket_sort: 2.39723 seconds
 }

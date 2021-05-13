@@ -41,6 +41,9 @@ using namespace std;
 
 // sorting network to sort 16 integers
 inline void sort_16_int(int *arr) {
+    // We used for loops to iterate over all comparisons
+    // in the given line
+    // it might be faster to hard code it instead
     // line 1
     for (int i = 0; i < 8; i++){
         COEX(arr[2*i], arr[2*i+1]);

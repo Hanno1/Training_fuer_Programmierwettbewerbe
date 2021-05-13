@@ -27,6 +27,7 @@ struct Star {
 };
 
 inline double string_to_double(const string &s) {
+    // just converts a string to a double value
     bool is_negative = s[0] == '-';
     double result = 0;
     bool done = false;
@@ -38,9 +39,11 @@ inline double string_to_double(const string &s) {
             continue;
         }
         result = result * 10 + s[i] - '0';
+        // if we are behind the comma we increment the counter by 1
         counter += done;
     }
-    result = result * pow(10, -done-1);
+    // shift the commy
+    result = result * pow(10, -counter);
     // return result;
     return is_negative ? -result : result;
 }
@@ -62,18 +65,41 @@ vector<Star> find_k_brightest_stars(ifstream &ifs, const size_t k) {
     // (brightest first)
     vector<Star> result;
     string word;
+    // go through input stream until we reach the word "Date"
+    // This is not really clean, we could go through the data
+    // line by line and see if the first char is a #
+    // but then we would have needed to split the first line
+    // and this is annoying
     while (ifs >> word){
         if (word == "Date"){
             break;
         }
     }
-
+    // comparator and max heap declaration
     auto comparator = [](const Star &a, const Star &b) { return a.vmag < b.vmag; };
-    priority_queue<Star, vector<Star>, decltype(comparator)> min_heap(comparator);
+    priority_queue<Star, vector<Star>, decltype(comparator)> max_heap(comparator);
 
+    // counter signals the column we are in
     int counter = 0;
     Star new_star;
     while (ifs >> word){
+        // the begin of the end section is marked with a #
+        // if the counter is 0 we are in the first column
+        // the name. The only Problem is, that the name can consist
+        // of 2 words. Since the next entry always has 2 Characters
+        // and a second name has more we just read the next word as long as
+        // it has not 2 characters
+        // we save the name in new_star.name
+        // if the counter equals 7 we are in the brightness column
+        // so we just convert the string to a double
+        // if the max heap size is smaller then k we push the star in every case
+        // if the max heap is already full we check the brightness of the first element.
+        // if it is smaller or equal we push the star.
+        // Since the root is the minimum bright star in the heap, we need to swap this
+        // one with the new star
+        //
+        // else we go to the next element.
+        // if we max heap exceeds k elements we pop the top element
         if (word[0] == '#'){
             break;
         }
@@ -88,19 +114,20 @@ vector<Star> find_k_brightest_stars(ifstream &ifs, const size_t k) {
         }
         else if (counter == 7){
             new_star.vmag = string_to_double(word);
-            if (min_heap.size() < k || new_star.vmag <= min_heap.top().vmag){
-                min_heap.push(new_star);
-                if (min_heap.size() > k){ min_heap.pop(); };
+            if (max_heap.size() < k || new_star.vmag <= max_heap.top().vmag){
+                max_heap.push(new_star);
+                if (max_heap.size() > k){ max_heap.pop(); };
             }
         }
         counter = (counter + 1) % 13;
     }
-
-    while (!min_heap.empty()){
-        result.push_back(min_heap.top());
-        min_heap.pop();
+    // create result, result will contain all entries of the heap
+    while (!max_heap.empty()){
+        result.push_back(max_heap.top());
+        max_heap.pop();
     }
-
+    // Since we use a max heap the result contains all entries in the wrong order
+    // so just reverse the vector
     for (int first = 0, last = result.size()-1; first < last; first++, last--){
         swap(result[first], result[last]);
     }

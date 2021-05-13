@@ -50,8 +50,22 @@ struct Nearest_Entries {
 Nearest_Entries find_nearest_repeated(const vector<string> &words) {
     Nearest_Entries nearest_entries{0, 0};
     size_t dif = INT_MAX;
+    // the umap will contain a word and the last index at which it occured
     unordered_map<string,int> umap;
 
+    // iterate over every word in words
+    // this is important because an entry in the unordered map
+    // will be created with Zero
+    // so if we find a 0 we do not know if the word occurred at
+    // index 0 or was not initialised yet
+    // so we just begin at index 1
+    // the minimum distance is saved in diff
+    // if we find a new word, we just check if the word already occurred
+    // if this is the case we use the entry in the unordered map to compute
+    // the distance and compare it to diff
+    // if the distance is smaller we update diff and nearest_entries
+    // at the end we update the last index of the word to the current
+    // index
     for (int i = 1; i <= words.size(); i++){
         int val = umap[words[i-1]];
         if (val){
