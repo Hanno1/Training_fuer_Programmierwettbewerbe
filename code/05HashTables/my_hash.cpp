@@ -57,10 +57,10 @@ uint32_t my_hash(const string &key) {
     // if it is is J we return 0 (John Smith)
     // if it is L we return 1 (Lisa Smith)
     // else we need to check the length and return either 2 or 3
-    if (key.size() > 0 && (key[0] == 'J' || key[0] == 'L' || key[0] == 'S')){
-        int index = (1 - (key[0] == 'J')) + (1 + (key.size() > 7)) * (key[0] == 'S');
-        return index;
-    }
+    // since if/else are slow we use bool multiplication
+    int valid = (key.size() > 0) * ((key[0] == 'J') + (key[0] == 'L') + (key[0] == 'S'));
+    int index = (1 - (key[0] == 'J')) + (1 + (key.size() > 7)) * (key[0] == 'S');
+    return ((1-valid)*UINT32_MAX+(valid*index));
     // Remarks:
     //   - return the index of the string in the kv table to be compared with the
     //     key entered by the user
@@ -68,7 +68,6 @@ uint32_t my_hash(const string &key) {
     //     the table, return UINT32_MAX (in this case strings are not compared at all
     //     --> see "find_hash" function)
     //   - prefer "switch" statements over "if else"
-    return UINT32_MAX;
 }
 
 /*************** end assignment ***************/
