@@ -38,12 +38,34 @@ using namespace std;
 // vector "tasks" contains for each task the duration
 // (there is an even number of tasks,
 // a single task duration is between 0 and 10000)
-unsigned int optimal_duration(const vector<unsigned int> &tasks) {
-  unsigned int total_duration = 0;
+void print_vec(vector<unsigned int> &vec){
+    cout << "--------------" << endl;
+    for (int i = 0; i < vec.size(); i++){
+        cout << vec[i] << endl;
+    }
+    cout << "--------------" << endl;
+}
 
-  // TODO: write your code here
-  
-  return total_duration;
+unsigned int optimal_duration(const vector<unsigned int> &tasks) {
+    vector<unsigned int> tasks_copy = tasks;
+    if (tasks.size() % 2){
+        cout << "ERROR" << endl;
+    }
+    unsigned int total_duration = 0;
+    for (size_t i = 1; i < tasks_copy.size(); i++){
+        size_t k = i;
+        while (k > 0 && tasks_copy[k] < tasks_copy[k-1]){
+            // unsigned int save = tasks[k];
+            swap(tasks_copy[k], tasks_copy[k-1]);
+            k--;
+        }
+    }
+
+    for (size_t i = 0; i < tasks_copy.size()/2; i++){
+        unsigned int length = tasks_copy[i] + tasks_copy[tasks.size()-i-1];
+        total_duration = max(total_duration, length);
+    }
+    return total_duration;
 }
 
 /*************** end assignment ***************/

@@ -268,14 +268,13 @@ string construct_candidates(Game &game,
   for (char c : candidates) {
     // we simulate a move to evaluate the position it leads to
     game.move(c);
-    int distance = 0;
     int dist = game.get_manhattan_distance() + game.get_moves_so_far().size();
     // the game state is a new one
     if (visited_game_states.find(game.key()) == visited_game_states.end()){
         // the distance is smaller then 200
         if (dist <= 200){
             visited_game_states.insert(game.key());
-            new_candidates.push_back({c, distance});
+            new_candidates.push_back({c, dist});
         }
     }
     // TODO: write code here
@@ -347,6 +346,7 @@ void backtrack(Game &game, unordered_set<bitset<128>> &visited_game_states,
 
 int main() {
   {
+    unsigned var = 0;
     // let's test your solution with a simple example first
     array<uint8_t, 16> example{2, 3, 4,  0,  1,  5,  7,  8,
                                9, 6, 10, 12, 13, 14, 11, 15};
@@ -422,5 +422,9 @@ int main() {
   cout << "average moves per problem: "
        << size_t(round(average_moves / hardest_problems.size())) << endl;
   TIMERSTOP(total_time)
+
+  // average moves per problem: 200
+  // total_time: 16.03 seconds
+
   return 0;
 }
