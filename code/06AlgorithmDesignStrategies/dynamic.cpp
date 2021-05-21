@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <math.h>
+#include <cassert>
 
 using namespace std;
 
@@ -39,6 +40,14 @@ void print_array(int n, int values[]){
     cout << "---------" << endl;;
 }
 
+void print_vector(vector<int> vect){
+    cout << "----------" << endl;
+    for (int i = 0; i < vect.size(); i++){
+        cout << vect[i] << endl;
+    }
+    cout << "----------" << endl;
+}
+
 int iter(int n, int values[]){
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
@@ -63,16 +72,16 @@ int iter(int n, int values[]){
 int rek(int n, int values[], int row, int col, vector<int> &saved){
     int res;
     if (row == 0 && col == 0){
-        return values[0];
+        res = values[0];
     }
     else if (row == 0){
-        res = saved[col-1];
+        res = saved[col];
         if (!res){
             res = values[row*n+col] + rek(n,values,row,col-1,saved);
         }
     }
     else if (col == 0){
-        res = saved[(row-1)*n];
+        res = saved[(row-1)*n + 1];
         if (!res){
             res = values[row*n+col] + rek(n,values,row-1,col,saved);
         }
@@ -82,24 +91,71 @@ int rek(int n, int values[], int row, int col, vector<int> &saved){
         if (!res){
             res = values[row*n+col] + max(rek(n,values,row-1,col,saved), rek(n,values,row,col-1,saved));
         }
-        cout << "Last else: " << res << endl;
     }
     saved[row*n+col] = res;
     return res;
 }
 
 int rek_main(int n, int values[]){
-    vector<int> vect(n*n,0);
-    int res = rek(n,values,n-1,n-1,vect);
-    return res;
+    if (n != 0){
+        vector<int> vect(n*n,0);
+        int res = rek(n,values,n-1,n-1,vect);
+        return res;
+    }
+    return 0;
 }
 
 
 int main() {
-    int arr[] = {3,7,9,2,7,9,8,3,5,5,1,7,9,8,5,3,8,6,4,10,6,3,9,7,8};
-    //int arr[] = {3,1,1,3};
-    //int res = rek_main(5, arr);
-    int res = iter(5, arr);
-    cout << res << endl;
+    {
+        int arr[] = {};
+        int res_r = rek_main(0, arr);
+        int res_i = iter(0, arr);
+        assert(res_r == 0);
+        assert(res_i == 0);
+    }
+    {
+        int arr[] = {3};
+        int res_r = rek_main(1, arr);
+        int res_i = iter(1, arr);
+        assert(res_r == 3);
+        assert(res_i == 3);
+    }
+    {
+        int arr[] = {3,7,9,2,7,9,8,3,5,5,1,7,9,8,5,3,8,6,4,10,6,3,9,7,8};
+        int res_r = rek_main(5, arr);
+        int res_i = iter(5, arr);
+        assert(res_r == 67);
+        assert(res_i == 67);
+    }
+    {
+        int arr[]={1,1,9,1,1,1,2,1,1};
+        int res_r = rek_main(3, arr);
+        int res_i = iter(3,arr);
+        assert(res_r == 13);
+        assert(res_i == 13);
+    }
+    {
+        int arr[]={1,1,9,2,1,1,3,1,1};
+        int res_r = rek_main(3, arr);
+        int res_i = iter(3,arr);
+        assert(res_r == 13);
+        assert(res_i == 13);
+    }
+    {
+        int arr[]={1,1,9,4,3,1,4,4,1};
+        int res_r = rek_main(3, arr);
+        int res_i = iter(3,arr);
+        assert(res_r == 14);
+        assert(res_i == 14);
+    }
+    {
+        int arr[]={1,1,3,2,8,2,3,1,1};
+        int res_r = rek_main(3, arr);
+        int res_i = iter(3,arr);
+        assert(res_r == 14);
+        assert(res_i == 14);
+    }
+    cout << "All Tests passed!" << endl;
     return 1;
 }
