@@ -40,28 +40,24 @@ void print_array(int n, int values[]){
 }
 
 int iter(int n, int values[]){
-    int matrix_sol[n*n];
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             // i is the row and j the column
-            if (j == 0 && i == 0){
-                matrix_sol[0] = values[0];
-            }
+            if (j == 0 && i == 0){}
             else if (i == 0){
                 // first row -> we cant go up
-                matrix_sol[j] = values[j] + matrix_sol[j-1];
+                values[j] = values[j] + values[j-1];
             }
             else if (j == 0){
                 // first col -> cant go left
-                matrix_sol[i*n] = values[i*n] + matrix_sol[(i-1)*n];
+                values[i*n] = values[i*n] + values[(i-1)*n];
             }
             else{
-                matrix_sol[i*n+j] = max(matrix_sol[i*n+j-1], matrix_sol[(i-1)*n+j]) + values[i*n+j];
+                values[i*n+j] = max(values[i*n+j-1], values[(i-1)*n+j]) + values[i*n+j];
             }
         }
     }
-    // print_array(n*n, matrix_sol);
-    return matrix_sol[n*n-1];
+    return values[n*n-1];
 }
 
 int rek(int n, int values[], int row, int col, vector<int> &saved){
@@ -102,7 +98,8 @@ int rek_main(int n, int values[]){
 int main() {
     int arr[] = {3,7,9,2,7,9,8,3,5,5,1,7,9,8,5,3,8,6,4,10,6,3,9,7,8};
     //int arr[] = {3,1,1,3};
-    int res = rek_main(5, arr);
+    //int res = rek_main(5, arr);
+    int res = iter(5, arr);
     cout << res << endl;
     return 1;
 }
