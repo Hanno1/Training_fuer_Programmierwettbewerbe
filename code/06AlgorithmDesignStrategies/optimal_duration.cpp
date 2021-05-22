@@ -48,9 +48,13 @@ void print_vec(vector<unsigned int> &vec){
 
 unsigned int optimal_duration(const vector<unsigned int> &tasks) {
     vector<unsigned int> tasks_copy = tasks;
+    // if every worker needs exactly 2 tasks we have to have an
+    // even number of tasks
     if (tasks.size() % 2){
         cout << "ERROR" << endl;
     }
+    // we start by sorting our list
+    // that is bubble sort and not optimal
     unsigned int total_duration = 0;
     for (size_t i = 1; i < tasks_copy.size(); i++){
         size_t k = i;
@@ -60,7 +64,13 @@ unsigned int optimal_duration(const vector<unsigned int> &tasks) {
             k--;
         }
     }
-
+    // we start by assigning the first worker the last and the first task
+    // since the list is sorted, he has now the minimal and the maximal task
+    // the next worker now gets the second and the second last task
+    // and so on
+    // if the duration of a task is longer then total_duration we replace the total duration
+    //
+    // if every worker has to have exactly 2 tasks this is a optimal solution
     for (size_t i = 0; i < tasks_copy.size()/2; i++){
         unsigned int length = tasks_copy[i] + tasks_copy[tasks.size()-i-1];
         total_duration = max(total_duration, length);

@@ -268,10 +268,13 @@ string construct_candidates(Game &game,
   for (char c : candidates) {
     // we simulate a move to evaluate the position it leads to
     game.move(c);
+    // compute the minimum distance to the solution
     int dist = game.get_manhattan_distance() + game.get_moves_so_far().size();
-    // the game state is a new one
+    // if the game state is a new one we tes tif the expected distance is smaller
+    // then 200 moves
+    // if this is the case we insert the state in the visited state and
+    // add it to the possible candidates
     if (visited_game_states.find(game.key()) == visited_game_states.end()){
-        // the distance is smaller then 200
         if (dist <= 200){
             visited_game_states.insert(game.key());
             new_candidates.push_back({c, dist});

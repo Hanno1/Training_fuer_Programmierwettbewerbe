@@ -49,6 +49,14 @@ void print_vector(vector<int> vect){
 }
 
 int iter(int n, int values[]){
+    // iterative is relatively simple
+    // we do it inplace and just go through every grid part from left to right
+    // in the first row we just take the element left and add the current element
+    // in the first col we just take the element top and add the current element
+    // in the normal grid we take the maximum of the top and left element
+    // and add the current element
+    //
+    // it is possible to do this inplace if we go from left to right and then down into the next row
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             // i is the row and j the column
@@ -70,6 +78,16 @@ int iter(int n, int values[]){
 }
 
 int rek(int n, int values[], int row, int col, vector<int> &saved){
+    // we need to view a few different cases:
+    // if both indexes  are 0, we return the values of the first field in the grid
+    // since values is a list we just take the first element and return it
+    // if the row is 0, we just can go left, so we decrease the column and call rek again
+    // if the col is 0, we can just go up, so we decrease the row and call rek
+    // if we are in a normal field we take the maximum of the upper and left field
+    // to compute this values we use rek
+    // at the end we set the saved of row*n+col to the just computed value.
+    // if we now call the function for the same row, col the values is not equal to zero
+    // and we set it to this value
     int res;
     if (row == 0 && col == 0){
         res = values[0];
@@ -97,6 +115,12 @@ int rek(int n, int values[], int row, int col, vector<int> &saved){
 }
 
 int rek_main(int n, int values[]){
+    // the main recursion function
+    // we need to catch the case n == 0 and only if this is not the case
+    // we start the recursion
+    // inside of the vector "vect" are our values we already computed
+    // the recursion function needs the indexes of the place we want to compute
+    // since we start at 0,0 we need to compute n-1,n-1
     if (n != 0){
         vector<int> vect(n*n,0);
         int res = rek(n,values,n-1,n-1,vect);
