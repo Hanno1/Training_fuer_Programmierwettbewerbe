@@ -17,7 +17,7 @@ class Input:
 
 
 DIGIT = [str(i) for i in range(10)]
-SYMBOLS = {'+': 'plus', '-': 'minus', '.': 'point'}
+SYMBOLS = {'+': 'plus', '-': 'minus', '.': 'point', 'e': 'exp', 'E': 'exp'}
 
 
 class Scanner:
@@ -45,15 +45,6 @@ class Scanner:
             description = SYMBOLS.get(self.current)
             identifier = self.current
             self.current = self.input.next()
-
-        # Function
-        elif self.current == "E" or self.current == "e":
-            description = "E"
-            identifier = "E"
-            self.current = self.input.next()
-            if self.current == "e" or self.current == "E":
-                # prob not necessary since we can catch this using the parser
-                raise Exception("Too many E's")
 
         elif self.current is None:
             description = "none"

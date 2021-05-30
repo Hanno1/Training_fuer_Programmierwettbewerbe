@@ -28,7 +28,7 @@ class Parser:
             self.error('constant')
 
     def exponent(self):
-        if self.desc == "E":
+        if self.desc == "exp":
             self.get_sym()
             if self.desc == 'plus' or self.desc == 'minus':
                 self.get_sym()
@@ -37,7 +37,7 @@ class Parser:
             else:
                 self.error('constant')
         else:
-            self.error('e')
+            self.error('exp')
 
     def get_sym(self):
         self.desc, self.ident = self.scanner.get_sym()
