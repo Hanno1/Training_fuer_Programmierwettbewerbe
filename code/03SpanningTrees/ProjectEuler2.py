@@ -24,8 +24,6 @@ def prim_algorithm(matrix):
             if not added:
                 F.append(edge)
     while len(W) < len(matrix[0]):
-        print("---------------")
-        print(len(F))
         for e in F:
             print(e.edge, e.weight)
         # take first edge of F
@@ -37,8 +35,6 @@ def prim_algorithm(matrix):
         # add end vertices to W and add weight to sum
         W.append(int_edge.edge[1])
 
-        print("Int Edge: ")
-        print(int_edge.edge, int_edge.weight)
         # remove edges that form a circle
         index = 0
         while True:
