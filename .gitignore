@@ -6,4 +6,6 @@
 *.log
 *.o
 
+screenshots/
+
 F-gowithflow/
