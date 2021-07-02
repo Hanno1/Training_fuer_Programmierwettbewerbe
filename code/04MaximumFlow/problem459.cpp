@@ -59,21 +59,29 @@ int connection_counter(int nodes_counter, vector<vector<int>> adj_mat){
     return counter;
 }
 
+int string_to_int(string number){
+    int new_number = 0;
+    for (int index = 0; index < number.length(); index++){
+        new_number = new_number * 10 + (int)number[index]-48;
+    }
+    return new_number;
+}
+
 void task_website(){
     int input;
-    string edge;
-    string node;
+    string real_input, edge, node;
     int node1, node2, node_counter;
     int res = 0;
-    cin >> input;
-    cin;
+    getline(cin, real_input);
+    input = string_to_int(real_input);
+    getline(cin, edge);
     for (int index = 0; index < input; index++){
-        cin >> node;
+        getline(cin, node);
         node_counter = (int)node[0] % 64;
         vector<vector<int>> adj_mat(node_counter, vector<int> (node_counter, 0));
-        while (cin >> edge){
-            cout << edge.length() << endl;
-             if (edge.length() != 2){
+        while (true){
+            getline(cin, edge);
+            if (edge.length() != 2){
                 break;
             }
             node1 = (int)edge[0] % 65;
@@ -82,13 +90,13 @@ void task_website(){
             adj_mat[node2][node1] = 1;
         }
         res = connection_counter(node_counter, adj_mat);
-        cout << "Result: " << res << endl;
+        cout << res << endl;
     }
 }
 
 int main(){
-    //task_website();
-    {
+    task_website();
+    /*{
         // example from the website
         vector<vector<int>> mat = {{0,1,0,0,0},{0,1,0,1,0},{0,0,0,0,1},{0,1,0,0,0},{0,0,1,0,0}};
         assert(connection_counter(5, mat) == 2);
@@ -122,6 +130,6 @@ int main(){
         vector<vector<int>> mat = {{0,0,1,0,0},{0,0,0,1,1},{1,0,0,0,1},{0,1,0,0,1},{0,1,1,1,0}};
         assert(connection_counter(5, mat) == 1);
     }
-    cout << "All Tests passed!" << endl;
+    cout << "All Tests passed!" << endl;*/
     return 1;
 }
