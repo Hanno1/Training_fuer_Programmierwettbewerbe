@@ -62,7 +62,7 @@ uint32_t my_hash(const string &key) {
     int index = (1 - (key[0] == 'J')) + (1 + (key.size() > 7)) * (key[0] == 'S');
     return ((1-valid)*UINT32_MAX+(valid*index));
     // Remarks:
-    //   - return the index of the string in the kv table to be compared with the
+    //   - return the index of the string in the kev table to be compared with the
     //     key entered by the user
     //   - if you can exclude the possibility that the key is a string in
     //     the table, return UINT32_MAX (in this case strings are not compared at all

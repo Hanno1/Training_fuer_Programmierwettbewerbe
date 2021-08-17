@@ -83,7 +83,7 @@ string Trie::shortest_prefix(const string &s) {
     auto *p = root.get(); // get pointer of the root node
     int length = 0;
     string res = "";
-    // for every char in the string we check if one of the kidnodes of our node has
+    // for every char in the string we check if one of the childrens of our node has
     // the same character
     // if this is the case we go to this node and check here for the next character
     // and append the current character to the result string.

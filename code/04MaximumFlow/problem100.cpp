@@ -16,8 +16,13 @@ int compute_sol(int numb, int counter){
 
 int compute_big_solution(int mini, int maxi){
     if (mini < 0 || maxi < 0){
-        cout << " Values have to be greater then 0! ";
+        cout << " Values have to be greater then 0\n";
         return -1;
+    }
+    if (mini > maxi){
+        int s = mini;
+        mini = maxi;
+        maxi = s;
     }
     int ret_max = 0;
     int solution;
@@ -30,20 +35,8 @@ int compute_big_solution(int mini, int maxi){
     return ret_max;
 }
 
-void compute_maxi(){
-    int a, b;
-    // later implement a map for saving computed values
-    map<int, int> m;
-    int solution, maxi;
-    while (cin >> a >> b){
-        maxi = compute_big_solution(a, b);
-        cout << a << " " << b << " " << maxi << "\n";
-    }
-}
-
 int main(){
     // Test cases can be written here
-    // compute_maxi();
     // additional Testcases
     {
         // same number
@@ -61,5 +54,5 @@ int main(){
         // many numbers
         cout << "1 1000 " << compute_big_solution(1, 1000) << "\n";
     }
-    return 1;
+    return 0;
 }

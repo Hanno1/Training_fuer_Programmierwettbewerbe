@@ -95,8 +95,7 @@ void task_website(){
 }
 
 int main(){
-    task_website();
-    /*{
+    {
         // example from the website
         vector<vector<int>> mat = {{0,1,0,0,0},{0,1,0,1,0},{0,0,0,0,1},{0,1,0,0,0},{0,0,1,0,0}};
         assert(connection_counter(5, mat) == 2);
@@ -130,6 +129,6 @@ int main(){
         vector<vector<int>> mat = {{0,0,1,0,0},{0,0,0,1,1},{1,0,0,0,1},{0,1,0,0,1},{0,1,1,1,0}};
         assert(connection_counter(5, mat) == 1);
     }
-    cout << "All Tests passed!" << endl;*/
+    cout << "All Tests passed!" << endl;
     return 1;
 }

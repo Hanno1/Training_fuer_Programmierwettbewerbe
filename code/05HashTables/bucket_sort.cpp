@@ -83,7 +83,7 @@ void bucket_sort(vector<Employee> &employees) {
             res[index].push_back(employees[i]);
         }
         int index = 0;
-        // concatenate the buckets and overwrite the entries in emplyees
+        // concatenate the buckets and overwrite the entries in employees
         for (int bucket = 0; bucket < 53; bucket++){
             for (int entry = 0; entry < res[bucket].size(); entry++){
                 employees[index] = res[bucket][entry];

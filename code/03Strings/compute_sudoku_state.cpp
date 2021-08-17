@@ -39,9 +39,21 @@ state compute_sudoku_state(const string &board) {
     if (board.size() != 81){
         return state::invalid;
     }
+    // a bitset for every category in rows, cols and blocks
     bitset<81> rows = 0;
     bitset<81> cols = 0;
     bitset<81> blocks = 0;
+    // iterate over every possible row and col and check if the entry
+    // is valid, if not return invalid
+    // if it is valid we check in the bitset if the number was
+    // already in this row, if yes: return invalid
+    // if no: set the entry in the bitset to 1
+    // same with columns and blocks
+    // Therefore we find any contradictions
+    // if every number was called -> rows.count == 81
+    // the sudoku is solved
+    // if a number is not valid but has a value of -16
+    // its still valid since this is a empty space
     for (int r = 0; r < 9; r++){
         for (int c = 0; c < 9; c++){
             int val = board[r * 9 + c] - '0';

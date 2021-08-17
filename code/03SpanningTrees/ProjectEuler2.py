@@ -8,7 +8,14 @@ class Edge:
 
 
 def prim_algorithm(matrix):
+    """
+    :param matrix: Adjazenslist of the graph
+    :return: sum of edges.weight of minimal spanning tree
+    """
+    # F will consist of every edge (in the minimal   spanning tree)
+    # in order of the weight
     F = []
+    # W is consists of every node in the minimal spanning tree
     W = [0]
     s = 0
     # initialise List
@@ -45,7 +52,7 @@ def prim_algorithm(matrix):
             else:
                 index += 1
 
-        # add new edges
+        # add new edges from the new node to F
         for i in range(0, len(matrix[0])):
             if matrix[int_edge.edge[1]][i] != "-" and i not in W:
                 edge = Edge(int_edge.edge[1], i, int(matrix[int_edge.edge[1]][i]))

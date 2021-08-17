@@ -56,9 +56,9 @@ bool inorder_rek(Binary_Tree_Node *node, int mini, int maxi){
     // or equal to min and smaller then max. If this is the case we walk to the right
     // and to the left of the node and compare them again to min and max
     // if one of these comparisons fails we return false
-    // if we go left, the data there has to be samller or equal of the data in our
-    // current node, so we set the new_min to node->data
-    // if we go right the value should be bigger, so we set the max to node->data.
+    // if we go left, the data there has to be samller or equal then the data in our
+    // current node, so we set the max to node->data
+    // if we go right the value should be bigger, so we set the min to node->data.
     if (node){
         if (node->data <= mini || node->data > maxi){
             return false;
@@ -76,7 +76,7 @@ bool is_binary_search_tree(Binary_Tree_Node *node) {
     // in those the value of the node should be
     // since the root can be everything we initialise the values
     // min, max with the smallest and biggest possible integer
-    bool res = inorder_rek(node,  INT_MIN, INT_MAX);
+    bool res = inorder_rek(node, INT_MIN, INT_MAX);
     return res;
 }
 

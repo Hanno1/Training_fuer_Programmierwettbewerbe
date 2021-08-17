@@ -45,7 +45,7 @@ public:
 //   https://www.geeksforgeeks.org/stringstream-c-applications/
 // - use a stack<int> for stacking the numbers
 inline int string_to_int(const string &s) {
-    // this function just converts an gib´ven string to
+    // this function just converts an given string to
     // the corresponding integer
     // negative values has to be evaluated too
     bool is_negative = s[0] == '-';
@@ -65,40 +65,42 @@ int eval_rpn(const string &rpn_expression) {
     string token;
 
     Stack<int> s;
+    int one, two;
 
     while(std::getline(ss, token, ' ')) {
         // the token is a line of our splitted expression
         // it can be equal to either -,+,*,/ or its an Integer
         // our stack contains the values. if we get an operation token
         // we take the upper two numbers from the stack (pop), apply the
-        // operation and pus the result
+        // operation and push the result
         // if the token is an normal string, we apply the string_to_int
         // function and push the result
+        // in one and two will the top stack elements be saved
         if (token == "-"){
-            int one = s.top();
+            one = s.top();
             s.pop();
-            int two = s.top();
+            two = s.top();
             s.pop();
             s.push(two - one);
         }
         else if (token == "+"){
-            int one = s.top();
+            one = s.top();
             s.pop();
-            int two = s.top();
+            two = s.top();
             s.pop();
             s.push(one + two);
         }
         else if (token == "/"){
-            int one = s.top();
+            one = s.top();
             s.pop();
-            int two = s.top();
+            two = s.top();
             s.pop();
             s.push(two / one);
         }
         else if (token == "*"){
-            int one = s.top();
+            one = s.top();
             s.pop();
-            int two = s.top();
+            two = s.top();
             s.pop();
             s.push(one * two);
         }

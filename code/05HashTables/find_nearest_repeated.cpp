@@ -52,7 +52,6 @@ Nearest_Entries find_nearest_repeated(const vector<string> &words) {
     size_t dif = INT_MAX;
     // the umap will contain a word and the last index at which it occured
     unordered_map<string,int> umap;
-
     // iterate over every word in words
     // this is important because an entry in the unordered map
     // will be created with Zero

@@ -149,8 +149,7 @@ uint32_t max_flip_sequence_size(uint32_t numb) {
     for (int i = 0; i < 32; i++){
         if (!((numb >> i)&1)){
             // we go here if the least significant bit is set to 0
-            // I know there are better solutions then shifting by i (for example shift every loop by 1)
-            // but I cant implement it somehow
+            // there are better solutions then shifting by i (for example shift every loop by 1)
             // if first is false we just flip the 0 to 1, increment the counted sequence and
             // set first to true since we did flip a bit
             if (!first){

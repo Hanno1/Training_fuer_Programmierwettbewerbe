@@ -270,7 +270,7 @@ string construct_candidates(Game &game,
     game.move(c);
     // compute the minimum distance to the solution
     int dist = game.get_manhattan_distance() + game.get_moves_so_far().size();
-    // if the game state is a new one we tes tif the expected distance is smaller
+    // if the game state is a new one we test if the expected distance is smaller
     // then 200 moves
     // if this is the case we insert the state in the visited state and
     // add it to the possible candidates

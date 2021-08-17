@@ -99,14 +99,7 @@ vector<size_t> count_matches_naive(const vector<set<string>> &baskets,
 // time. (In a real speed competition this would be essential for winning!)
 vector<size_t> count_matches_fast(const vector<set<string>> &baskets,
                                   const vector<set<string>> &preferences) {
-    /* the solution is much prettier and faster using a binary tree
-    // since we do not have to compare a preference to every basket because we
-    // can just go through the tree and if we find three ones we just take the
-    // value of the node in the tree (the value is every preference that has this three ones)
-    //
-    // TODO: Code it if I have time
-    */
-
+    // vector to count all occured matches
     vector<size_t> matches_count(preferences.size());
     // map maps a string to an unique index in the bit_string
     // we will use it to create an order of the fruits using the index
@@ -136,8 +129,7 @@ vector<size_t> count_matches_fast(const vector<set<string>> &baskets,
         // every bitset now represents the fruit basket at the index
         baskets_bool.push_back(new_basket);
     }
-
-    // go through every preference and create the array according t the map
+    // go through every preference and create the array according to the map
     // Since there might be fruits only in preferences and not in the baskets
     // we still have to append them to the map to not get an error
     // There is another Solution of course to just ignore this fruit because

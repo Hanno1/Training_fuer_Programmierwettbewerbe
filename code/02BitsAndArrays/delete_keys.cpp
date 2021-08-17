@@ -20,7 +20,7 @@ using namespace std;
 
 inline size_t delete_keys(vector<int> &v, const int key) {
     // we have to remove all occurrences of the given key
-    // print vector
+    // valid will be the counter of valid elements in the vector
     int valid = v.size();
     // left will be the first index from which we replace elements
     int left = 0;

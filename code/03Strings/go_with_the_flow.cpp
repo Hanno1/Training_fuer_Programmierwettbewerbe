@@ -290,7 +290,6 @@ Result find_longest_river(Input &input) {
     // which is not clearly mentioned in the task description:
     // --> a new line never starts with a space
     //     (if you would have a space after a line break, ignore the space and continue with the next word)
-
     // should contain in the end the "minimal" optimal line width
     size_t line_width = longest_word; // line width can't be shorter than the longest word
     size_t river_length = 0;
@@ -319,7 +318,7 @@ int main() {
   // set data_dir to folder with test data
   string data_dir = "./F-gowithflow/";
   // test texts in task description
-  /*{
+  {
     string text = "The Yangtze is the third longest "
                   "river in Asia and the longest in "
                   "the world to flow "
@@ -342,7 +341,7 @@ int main() {
     Result result = find_longest_river(input);
     Result correct_result{21, 6};
     assert(result == correct_result);
-  }*/
+  }
 
   TIMERSTART(total_time_on_test_data);
   // test now the texts provided by the organisers of the competition
@@ -389,7 +388,7 @@ int main() {
     assert(result == correct_result);
     cout << "secret-099-small.in passed\n";
   }
-  //TIMERSTOP(total_time_on_test_data);
+  TIMERSTOP(total_time_on_test_data);
 
   return 0;
 }

@@ -60,7 +60,7 @@ int count_permutations(const string &s, const string &b) {
         }
     }
     // if now the dictionaries are the same it is a permutation and we add 1 to the counter
-    count = count + (dict_s == dict_b);
+    count += (dict_s == dict_b);
     // now we go through the string b letter by letter
     // we already initialised the dictionary and now all we have to do is to
     // remove the first letter (index) and add one letter at the end (index + length)
@@ -73,14 +73,13 @@ int count_permutations(const string &s, const string &b) {
         if (!dict_s[b[index + length]]){
             dict_s[b[index + length]] = 0;
         }
-        count = count + (dict_s == dict_b);
+        count += (dict_s == dict_b);
     }
     // The time complexity of the algorithm is O(B) because we obviously go through
     // the string b. For every iteration we increment and decrement two numbers in
     // the dictionary
     // additionally we add eventually a new entry to dict_s
     // Since there is a finite number of characters the time for this is constant
-
     return count;
 }
 

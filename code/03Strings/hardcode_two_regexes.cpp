@@ -170,7 +170,7 @@ inline void clean_coconut(string &s) {
     while (pch != nullptr){
         int counter  = 0;
         for (int i = 0; i < 6; i++){
-            if (pch[i+7] == '\0' || pch[i + 7] - '0' < 0 || pch[i+7] - '0' > 9){
+            if (pch[i+7] == '\0' || pch[i+7] - '0' < 0 || pch[i+7] - '0' > 9){
                 break;
             }
             counter++;
@@ -202,22 +202,27 @@ inline void clean_coconut(string &s) {
 // Those hints are really advanced stuff and may harm more than help you, if you
 // are unsure what they mean or what to do with them!
 void clean_spaces(string &s) {
+    cout << "start cleaning spaces!" << endl;
     string s1 = "  ";
     string s2 = " ";
     size_t deleted = 0;
     char *pch = const_cast<char *>(strstr(s.data(), s1.data()));
+    int count_until_error = 0;
     while (pch != nullptr){
         int counter  = 1;
         for (int i = 0; i < s.size(); i++){
+            if (pch[i+2] == '\n') {counter++; break;}
             if (pch[i+2] != ' '){ break; }
             counter++;
         }
-        cout << counter << endl;
         deleted += counter;
         memmove(pch, pch+counter, s.size());
         pch = const_cast<char *>(strstr(pch + s1.size(), s1.data()));
+        count_until_error++;
+        cout << "Error: " << count_until_error << endl;
     }
     s.resize(s.size() - deleted);
+    cout << "Done" << endl;
 }
 
 // we compare the speed of the slow "regex_clean" function with this one, where
@@ -268,26 +273,46 @@ void fast_clean(string &text) {
   clean_coconut(text);
   clean_spaces(text);
 }
+
+void compare_strings(string &s1, string &s2){
+    if (s1.length() <= s2.length()){
+        cout << "String 1 is shorter or same length " << endl;
+        for (int i = 0; i < s1.length(); i++){
+            if (s1[i] != s2[i]){
+                cout << "Not the same: " << i << ", Character s1: " << s1[i] << ", s2: " << s2[i] << endl;
+            }
+        }
+    }
+    else{
+        cout << "String 2 is longer then String1" << endl;
+        for (int i = 0; i < s2.length(); i++){
+            if (s1[i] != s2[i]){
+                cout << "Not the same: " << i << endl;
+            }
+        }
+    }
+}
 /*************** end assignment ***************/
 
 int main() {
-  ifstream ifs("messy_text.txt");
-  if (ifs.fail()) {
-    cerr << "file not found\n";
-    return 0;
-  }
-  string text;
-  getline(ifs, text, '\0'); // read the whole file into a string
+    ifstream ifs("messy_text2.txt");
+    if (ifs.fail()) {
+        cerr << "file not found\n";
+        return 0;
+    }
+    string text;
+    getline(ifs, text, '\0'); // read the whole file into a string*/
+    string copy_regex = text;
+    TIMERSTART(regex_clean)
+    regex_clean(copy_regex);
+    TIMERSTOP(regex_clean)
 
-  string copy_regex = text;
-  TIMERSTART(regex_clean)
-  regex_clean(copy_regex);
-  TIMERSTOP(regex_clean)
+    string copy_fast = text;
+    TIMERSTART(fast_clean)
+    fast_clean(copy_fast);
+    TIMERSTOP(fast_clean)
 
-  string copy_fast = text;
-  TIMERSTART(fast_clean)
-  fast_clean(copy_fast);
-  TIMERSTOP(fast_clean)
-
-  assert(copy_regex == copy_fast);
+    compare_strings(copy_regex, copy_fast);
+    assert(copy_regex == copy_fast);
+    return 1;
 }

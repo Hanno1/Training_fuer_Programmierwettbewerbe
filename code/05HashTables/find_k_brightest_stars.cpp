@@ -92,14 +92,14 @@ vector<Star> find_k_brightest_stars(ifstream &ifs, const size_t k) {
         // we save the name in new_star.name
         // if the counter equals 7 we are in the brightness column
         // so we just convert the string to a double
-        // if the max heap size is smaller then k we push the star in every case
+        // if the max heap size is smaller then k we just push the star
         // if the max heap is already full we check the brightness of the first element.
         // if it is smaller or equal we push the star.
         // Since the root is the minimum bright star in the heap, we need to swap this
         // one with the new star
         //
         // else we go to the next element.
-        // if we max heap exceeds k elements we pop the top element
+        // if the max heap exceeds k elements we pop the top element
         if (word[0] == '#'){
             break;
         }

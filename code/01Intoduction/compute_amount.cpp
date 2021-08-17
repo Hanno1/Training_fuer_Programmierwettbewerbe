@@ -74,24 +74,6 @@ int compute_amount(const int n) {
     // number between 1 to n. Searching a hashmap is O(1) and we only have constant many operations.
     return amount;
 }
-
-int compute_amount_leif(const int n) {
-    int amount = 0;
-    // stores the values of a^3+b^3 and how often they appear
-    map <int,int> known_values;
-    for (int a = 1; a <= n; ++a) {
-        for (int b = 1; b <= n; ++b) {
-            // count the appearence
-            known_values[a * a * a + b * b * b]++;
-        }
-    }
-    // adding the possible combinations of those valuses
-    // the formel is (n choose 2)*2
-    for (const auto& [value, num] : known_values){
-        amount = amount + num * (num-1);
-    }
-    return amount + n*n;
-}
 /*************** end assignment ***************/
 
 int main() {
@@ -110,10 +92,6 @@ int main() {
   TIMERSTART(improved)
   int result = compute_amount(n);
   TIMERSTOP(improved)
-
-  TIMERSTART(leif)
-  int result2 = compute_amount_leif(n);
-  TIMERSTOP(leif)
 
   assert(result_bf == result);
 }

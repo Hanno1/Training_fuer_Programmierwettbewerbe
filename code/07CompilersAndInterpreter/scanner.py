@@ -39,7 +39,6 @@ class Scanner:
             while self.current in DIGIT:
                 identifier += self.current
                 self.current = self.input.next()
-
         # Symbol
         elif self.current in SYMBOLS.keys():
             description = SYMBOLS.get(self.current)

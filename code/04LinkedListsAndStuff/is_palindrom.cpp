@@ -56,13 +56,11 @@ bool is_palindrom(Node *node) {
         // we use the runner technique for the solution
         // one pointer is fast and one is slow
         // if the fast pointer reaches the end the slow one is in the middle
-        // for the palindrom check we use a stack. Everytime the slow pointer
-        // encounters a value we push it. If the fast pointer reaches the end
+        // for the palindrom check we use a stack. Every time the slow pointer
+        // encounters a value we push it. If the fast pointer reaches the end,
         // the stack contains the first n values. The last value is on top
-        // if the list has an uneven number of nodes
-        //(exactly then the fast pointer is not null but the next node is null
-        //(fast pointer is tail))
-        // we have to ignore the middle node, so the slow pointer just jumps over it
+        // if the list has an uneven number of nodes we have to ignore the middle node,
+        // so the slow pointer just jumps over it
         // Now we go as long as the stack is not empty over the remaining list
         // (using the slow pointer which is already in the middle) and check
         // if the top element of the stack is the same as the encountered element

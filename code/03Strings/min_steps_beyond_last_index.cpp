@@ -30,19 +30,35 @@ using namespace std;
 
 
 size_t min_steps_beyond_last_index(const vector<size_t> &A) {
+    /*
+    we save the actual range we can jump in the variable range
+    new_range will be the jumps we can make at the moment
+    therefore if the range is equal tozero it gets replaced with new_range
+    is new_range 0 its impossible to jump to the end
+    furthest is the furthest index we can jump to
+    We count the used jumps in jumps
+    */
     size_t range = 0;
     size_t new_range = 0;
     size_t jumps = 0;
     size_t furthest = 0;
+    // iterate other every variable in the array
+    // as long as i<= furthest (i > furthest implies we cant jump to that location)
+    // and as long as i<A.size since we have reached the end here
     for (int i = 0; i <= furthest && i < A.size(); i++){
+        // if we can jump longer then furthest from the current location
+        // we update the new_range as well as furthest
         if (A[i] + i > furthest){
             new_range = A[i];
             furthest = A[i] + i;
         }
+        // if the range is zero we replace it with new_range
+        // and increment the jump counte
         if (range == 0){
             range = new_range;
             jumps++;
         }
+        // decrement both ranges since we advance to the next index
         range--;
         new_range--;
     }
