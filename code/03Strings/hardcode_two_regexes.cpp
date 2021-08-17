@@ -24,6 +24,15 @@ using namespace std;
   std::cout << #label << ": " << std::setprecision(4) << delta##label.count()  \
             << " seconds" << std::endl;
 
+void print(string text, int length){
+    cout << "Start Print... " << endl;
+    for (int i = 0; i < length; i++){
+        cout << text[i];
+    }
+    cout << "\nEnd Print... " << endl;
+    cout << endl;
+}
+
 // function replaces "search_for" in-place with "replace_with" in string "s"
 inline void replace_space_out(std::string &s, const std::string &search_for,
                               const std::string &replace_with) {
@@ -166,8 +175,11 @@ inline void clean_coconut(string &s) {
     // and make in Coconut the uppercase C to a lowercase c
     string s1 = "Coconut";
     string s2 = "coconut";
+    // get a pointer to the first location of Coconut
     char *pch = const_cast<char *>(strstr(s.data(), s1.data()));
+    // While we still have an Occurrence of Coconut
     while (pch != nullptr){
+        // count the number of numbers after it up to 6
         int counter  = 0;
         for (int i = 0; i < 6; i++){
             if (pch[i+7] == '\0' || pch[i+7] - '0' < 0 || pch[i+7] - '0' > 9){
@@ -175,14 +187,18 @@ inline void clean_coconut(string &s) {
             }
             counter++;
         }
+        // if the counter is between 3 and 6
+        // replace the string with coconut
         if (2 < counter){
             strncpy(pch, s2.data(), 7);
             for (size_t i = 0; i < counter; i++){
                 pch[i + 7] = ' ';
             }
         }
+        // search next occurence
         pch = const_cast<char *>(strstr(pch + s1.size(), s1.data()));
     }
+    return;
 }
 
 // TODO: hardcode regex to clean two or more spaces into one space: "\\s{2,}" --> " "
@@ -202,27 +218,38 @@ inline void clean_coconut(string &s) {
 // Those hints are really advanced stuff and may harm more than help you, if you
 // are unsure what they mean or what to do with them!
 void clean_spaces(string &s) {
-    cout << "start cleaning spaces!" << endl;
+    /*
+    search using a pointer for two empty spaces
+    if found, we count the number of empty spaces that follow
+    with a simple for loop
+    to resize s then finished we need to count all spaces
+    we deleted (size_t deleted)
+
+    since the text is gigantic and memmove cant access the
+    entire memory we need to only move the index of the pointer
+    until the end of the string (if we move s.size() we get a
+                                 runtime Error)
+    Now we just set the pointer to the next 2 spaces until we
+    are finished
+
+    After that we just need to resize the string
+    */
     string s1 = "  ";
     string s2 = " ";
     size_t deleted = 0;
     char *pch = const_cast<char *>(strstr(s.data(), s1.data()));
-    int count_until_error = 0;
     while (pch != nullptr){
         int counter  = 1;
         for (int i = 0; i < s.size(); i++){
-            if (pch[i+2] == '\n') {counter++; break;}
             if (pch[i+2] != ' '){ break; }
             counter++;
         }
         deleted += counter;
-        memmove(pch, pch+counter, s.size());
-        pch = const_cast<char *>(strstr(pch + s1.size(), s1.data()));
-        count_until_error++;
-        cout << "Error: " << count_until_error << endl;
+        ptrdiff_t index = pch - &s[0];
+        memmove(pch, pch+counter, s.size()-index);
+        pch = const_cast<char *>(strstr(pch + s2.size(), s1.data()));
     }
     s.resize(s.size() - deleted);
-    cout << "Done" << endl;
 }
 
 // we compare the speed of the slow "regex_clean" function with this one, where
@@ -275,8 +302,16 @@ void fast_clean(string &text) {
 }
 
 void compare_strings(string &s1, string &s2){
-    if (s1.length() <= s2.length()){
-        cout << "String 1 is shorter or same length " << endl;
+    if (s1.length() == s2.length()){
+        cout << "String have the same length" << endl;
+        for (int i = 0; i < s1.length(); i++){
+            if (s1[i] != s2[i]){
+                cout << "Not the same: " << i << ", Character s1: " << s1[i] << ", s2: " << s2[i] << endl;
+            }
+        }
+    }
+    else if (s1.length() <= s2.length()){
+        cout << "String 1 is shorter" << endl;
         for (int i = 0; i < s1.length(); i++){
             if (s1[i] != s2[i]){
                 cout << "Not the same: " << i << ", Character s1: " << s1[i] << ", s2: " << s2[i] << endl;
@@ -295,7 +330,10 @@ void compare_strings(string &s1, string &s2){
 /*************** end assignment ***************/
 
 int main() {
-    ifstream ifs("messy_text2.txt");
+    // clean_spaces() doesnt work in the messy text
+    // i dont realy know why. It depends on the length of the text
+    // and we're really confused by that
+    ifstream ifs("messy_text.txt");
     if (ifs.fail()) {
         cerr << "file not found\n";
         return 0;
@@ -303,16 +341,20 @@ int main() {
     string text;
     getline(ifs, text, '\0'); // read the whole file into a string*/
     string copy_regex = text;
+    string copy_fast = text;
     TIMERSTART(regex_clean)
     regex_clean(copy_regex);
     TIMERSTOP(regex_clean)
 
-    string copy_fast = text;
     TIMERSTART(fast_clean)
     fast_clean(copy_fast);
     TIMERSTOP(fast_clean)
 
-    compare_strings(copy_regex, copy_fast);
+    //compare_strings(copy_regex, copy_fast);
     assert(copy_regex == copy_fast);
+
+    cout << "All Tests completed!" << endl;
+    // regex_clean: 4.964 seconds
+    // fast_clean: 1.281 seconds
     return 1;
 }
